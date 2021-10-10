@@ -17,7 +17,7 @@ class User:
 # Takes in two user objects and outputs a float denoting compatibility
 def compute_score(user1, user2):
     # YOUR CODE HERE
-    return 0
+    return 1
 
 
 if __name__ == '__main__':
