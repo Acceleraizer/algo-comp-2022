@@ -17,7 +17,28 @@ class User:
 # Takes in two user objects and outputs a float denoting compatibility
 def compute_score(user1, user2):
     # YOUR CODE HERE
-    return 1
+    # If preferences do not align, auto 0
+    if user1.gender not in user2.preferences or user2.gender not in user1.preferences:
+        return 0
+
+    # maximum number of matching responses, expected value
+    maximum = len(user1.responses)
+    mean = maximum/5
+
+    # counts matches in responses
+    raw = 0
+    for i, opt in enumerate(user1.responses):
+        raw += (opt == user2.responses[i])
+
+    # Baseline scoring: if the number of matches is worse than random, give a 0. 
+    # Otherwise, linear in the number of matches in range 0-1
+    score = max(raw-mean, 0)/(maximum-mean)
+
+    # At worst 0.75 multiplier if year difference is 3
+    year_diff = abs(user1.grad_year - user2.grad_year)
+    score *= 1/(1+year_diff/9) 
+
+    return score
 
 
 if __name__ == '__main__':
